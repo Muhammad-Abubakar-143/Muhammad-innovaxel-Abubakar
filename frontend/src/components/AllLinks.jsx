@@ -9,6 +9,7 @@ const AllLinks = () => {
     id:1,
     url:"https://www.youtube.com/Mx23cE3bjyx",
     shortCode: "abc123",
+    shortUrl: "http://localhost::5173/abc123",
     createdAt: "2021-09-01T12:00:00Z",
     updatedAt: "2021-09-01T12:00:00Z",
     "accessCount": 10,
@@ -23,11 +24,12 @@ const AllLinks = () => {
       </div>
     : 
     <div>
+      <h1 className='md:text-4xl text-2xl text-center mb-8 font-bold font-sans'>URL Shortening</h1>
       <ul className='space-y-2'>
           {urls.map((url, index) => (
             <li key={index} className='border flex justify-between items-center border-gray-300 p-3 rounded hover:bg-gray-50'>
               <div>
-              <div className='font-semibold'>{url?.shortCode}</div>
+              <div className='font-semibold'>{url?.shortUrl}</div>
               <div className='text-sm text-gray-600'>{url.url}</div>
               </div>
               <div>
@@ -41,7 +43,7 @@ const AllLinks = () => {
               <div>
               <div className='font-semibold'>Actions</div>
               <div className='flex gap-2'>
-                <CopyButton/>
+                <CopyButton textToCopy={url.shortUrl}/>
                 <EditButton/>
                 <DeleteButton/>
               </div>
