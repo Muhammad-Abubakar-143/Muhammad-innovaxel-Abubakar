@@ -1,17 +1,26 @@
 const express = require('express');
-const UrlRoutes = require('./routes/url')
-const connectMongoDB= require('./connect')
+const UrlRoutes = require('./routes/url');
+const connectMongoDB = require('./connect');
 
 const app = express();
-const PORT = 4000
+const PORT = 4000;
 
-connectMongoDB("mongodb://localhost:27018/short-url").then(
-    console.log("MongoDb Connected")
-)
-app.use(express.json)
+connectMongoDB("mongodb://localhost:27018/short-url")
+  .then(() => {
+    console.log("MongoDB Connected");
 
-app.use("/url", UrlRoutes)
+    app.use(express.json());
+    app.use("/url", UrlRoutes);
 
-app.listen(PORT, () => {
-    console.log("listening on port 4000");
-});
+    app.get("/", (req, res) => {
+      res.send("Server is running ");
+    });
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server listening on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err.message);
+    process.exit(1);
+  });
