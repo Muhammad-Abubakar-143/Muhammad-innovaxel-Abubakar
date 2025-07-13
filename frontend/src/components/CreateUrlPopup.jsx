@@ -1,30 +1,29 @@
 // CreateUrlPopup.js
 import React, { useState } from 'react';
-import { createShortUrl } from '../api/api';
 
-const CreateUrlPopup = ({ onClose, onSubmit,  onCreated = () => {}  }) => {
+
+const CreateUrlPopup = ({ onClose, onSubmit }) => {
     const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async () => {
-    if (!url.trim()) return;
+  if (!url.trim()) return;
 
-    setLoading(true);
-    setError(null);
-    try {
-      const created = await createShortUrl(url.trim());
-      onSubmit(created);
-      onCreated();
-      setUrl('');
-      onClose();
-    } catch (err) {
-      console.error('Create URL error:', err);
-      setError('Failed to create short URL. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  setError(null);
+  try {
+    await onSubmit(url.trim()); // Pass plain URL only
+    setUrl('');
+  } catch (err) {
+    console.error('Create URL error:', err);
+    setError('Failed to create short URL. Please try again.');
+  } finally {
+    setLoading(false);
+    onClose(); // Popup close yahan hona chahiye
+  }
+};
+
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {

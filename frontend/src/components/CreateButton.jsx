@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import CreateUrlPopup from './CreateUrlPopup';
+import { createShortUrl } from '../api/api';
 
-const CreateButton = ({onCreated}) => {
+const CreateButton = ({ onCreated = () => {} }) => {
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleCreate = (url) => {
-    // Call your POST API to create short URL
-    
-    console.log('Creating short URL for:', url);
-    onCreated();
-
-    setShowPopup(false);
+  const handleCreate = async (url) => {
+    try {
+      await createShortUrl(url); // API call
+      onCreated();         // List reload
+    } catch (err) {
+      console.error('Failed to create URL:', err);
+    } finally {
+      setShowPopup(false);
+    }
   };
 
   return (
@@ -26,7 +29,6 @@ const CreateButton = ({onCreated}) => {
         <CreateUrlPopup
           onClose={() => setShowPopup(false)}
           onSubmit={handleCreate}
-          onCreated={onCreated}
         />
       )}
     </>

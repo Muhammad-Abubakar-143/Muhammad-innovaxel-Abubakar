@@ -49,7 +49,10 @@ const AllLinks = () => {
         </div>
       ) : (
         <div>
-          <h1 className='md:text-4xl text-2xl text-center mb-8 font-bold font-sans'>URL Shortening</h1>
+          <div className='mb-8 flex justify-between items-center'>
+          <h1 className='md:text-4xl text-2xl font-bold font-sans'>URL Shortening</h1>
+<CreateButton onCreated={fetchUrls} />
+          </div>
           <ul className='space-y-2'>
             {urls.map((url, index) => (
               <li key={index} className='border flex justify-between items-center border-gray-300 p-3 rounded hover:bg-gray-50'>
