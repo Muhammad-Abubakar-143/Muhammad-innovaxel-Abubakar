@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "create a url shortening MERN app backend",
+  "homepage": "https://github.com/Muhammad-Abubakar-143/Muhammad-innovaxel-Abubakar#readme",
+  "bugs": {
+    "url": "https://github.com/Muhammad-Abubakar-143/Muhammad-innovaxel-Abubakar/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Muhammad-Abubakar-143/Muhammad-innovaxel-Abubakar.git"
+  },
+  "license": "ISC",
+  "author": "Muhammad Abubakar",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.3",
+    "nanoid": "^5.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
