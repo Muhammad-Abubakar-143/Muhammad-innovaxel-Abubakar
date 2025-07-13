@@ -5,25 +5,24 @@ import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import { deleteShortUrl, getAllShortUrls } from '../api/api';
 
-
 const AllLinks = () => {
   const [urls, setUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    async function fetchUrls() {
-      try {
-        const data = await getAllShortUrls();
-        console.log('data', data)
-        setUrls(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+  const fetchUrls = async () => {
+    try {
+      setLoading(true);
+      const data = await getAllShortUrls();
+      setUrls(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchUrls();
   }, []);
 
@@ -31,7 +30,7 @@ const AllLinks = () => {
     if (!window.confirm('Are you sure you want to delete this URL?')) return;
     try {
       await deleteShortUrl(shortCode);
-      setUrls(prev => prev.filter(u => u.shortCode !== shortCode));
+      await fetchUrls();
     } catch (err) {
       alert(err.message);
     }
@@ -46,7 +45,7 @@ const AllLinks = () => {
       ) : urls.length === 0 ? (
         <div className='h-52 flex justify-center items-center flex-col'>
           <p className='text-gray-700 text-2xl mb-5 text-center'>No URL found.</p>
-          <CreateButton onCreate={(newUrl) => setUrls(prev => [newUrl, ...prev])} />
+          <CreateButton onCreated={fetchUrls} />
         </div>
       ) : (
         <div>
@@ -74,7 +73,7 @@ const AllLinks = () => {
                   <div className='font-semibold'>Actions</div>
                   <div className='flex gap-2'>
                     <CopyButton textToCopy={url?.shortCode} />
-                    <EditButton shortCode={url?.shortCode} />
+                    <EditButton shortCode={url?.shortCode} onUpdate={fetchUrls} />
                     <DeleteButton onClick={() => handleDelete(url?.shortCode)} />
                   </div>
                 </div>

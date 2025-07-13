@@ -3,7 +3,7 @@ import {MdModeEdit} from "react-icons/md"
 import EditUrlPopup from './EditUrlPopup';
 import { updateShortUrl } from '../api/api';
 
-const EditButton = ({shortCode}) => {
+const EditButton = ({shortCode, onUpdate}) => {
     const [showPopup, setShowPopup] = useState(false);
     const [error, setError] = useState(null)
     
@@ -11,6 +11,7 @@ const EditButton = ({shortCode}) => {
     setError(null);
     try {
       await updateShortUrl(shortCode, newUrl);
+      onUpdate();
       setShowPopup(false);
     } catch (err) {
       console.error('Update failed:', err);
