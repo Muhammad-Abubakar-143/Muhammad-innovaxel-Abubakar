@@ -55,7 +55,7 @@ const AllLinks = () => {
           </div>
           <ul className='space-y-2'>
             {urls.map((url, index) => (
-              <li key={index} className='border flex justify-between items-center border-gray-300 p-3 rounded hover:bg-gray-50'>
+              <li key={index} className='border flex justify-between gap-4 md:gap-0 items-baseline overflow-x-auto md:items-center border-gray-300 p-3 rounded hover:bg-gray-50'>
                 <div>
                   <div className='font-semibold'>{url?.shortCode}</div>
                   <div className='text-sm text-gray-600'>{url?.url}</div>
