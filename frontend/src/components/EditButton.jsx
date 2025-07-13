@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
 import {MdModeEdit} from "react-icons/md"
 import EditUrlPopup from './EditUrlPopup';
+import { updateShortUrl } from '../api/api';
 
 const EditButton = ({shortCode}) => {
     const [showPopup, setShowPopup] = useState(false);
+    const [error, setError] = useState(null)
     
-      const handleEdit = (url) => {
-        // Call your POST API to create short URL
-        console.log('Creating short URL for:', url);
-        setShowPopup(false);
-      };
+      const handleEdit = async (newUrl) => {
+    setError(null);
+    try {
+      await updateShortUrl(shortCode, newUrl);
+      setShowPopup(false);
+    } catch (err) {
+      console.error('Update failed:', err);
+      setError('Failed to update URL.');
+    }
+  };
   return (
     <>
     <MdModeEdit onClick={() => setShowPopup(true)} className='p-2 bg-gray-200 rounded-lg cursor-pointer' size={35}/>
@@ -21,6 +28,7 @@ const EditButton = ({shortCode}) => {
           shortCode={shortCode}
         />
       )}
+       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </>
   )
 }

@@ -46,7 +46,7 @@ const AllLinks = () => {
       ) : urls.length === 0 ? (
         <div className='h-52 flex justify-center items-center flex-col'>
           <p className='text-gray-700 text-2xl mb-5 text-center'>No URL found.</p>
-          <CreateButton />
+          <CreateButton onCreate={(newUrl) => setUrls(prev => [newUrl, ...prev])} />
         </div>
       ) : (
         <div>

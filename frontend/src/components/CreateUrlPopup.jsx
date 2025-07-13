@@ -1,23 +1,18 @@
-// CreateUrlPopup.js
 import React, { useState } from 'react';
-import { createShortUrl } from '../api/api';
 
 const CreateUrlPopup = ({ onClose, onSubmit }) => {
-    const [url, setUrl] = useState('');
+  const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async () => {
     if (!url.trim()) return;
-    console.log('trim', url.trim())
 
     setLoading(true);
     setError(null);
     try {
-      const created = await createShortUrl(url.trim());
-      onSubmit(created);
+      await onSubmit(url.trim());
       setUrl('');
-      onClose();
     } catch (err) {
       console.error('Create URL error:', err);
       setError('Failed to create short URL. Please try again.');
@@ -37,14 +32,19 @@ const CreateUrlPopup = ({ onClose, onSubmit }) => {
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-xl font-semibold mb-4">Create Short URL</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
-        <input
-          type="text"
-          placeholder="Enter a long URL"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          className="w-full p-2 border rounded mb-4"
-          disabled={loading}
-        />
+
+        <label className="block mb-4">
+          Long URL
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            className="w-full p-2 border rounded mt-1"
+            placeholder="https://example.com"
+            disabled={loading}
+          />
+        </label>
+
         <div className="flex justify-end space-x-2">
           <button
             onClick={onClose}
@@ -58,7 +58,7 @@ const CreateUrlPopup = ({ onClose, onSubmit }) => {
             className="px-4 py-2 rounded bg-indigo-500 text-white hover:bg-indigo-600 disabled:opacity-50"
             disabled={loading}
           >
-            {loading ? 'Generating...' : 'Generate Short URL'}
+            {loading ? 'Creating...' : 'Create'}
           </button>
         </div>
       </div>

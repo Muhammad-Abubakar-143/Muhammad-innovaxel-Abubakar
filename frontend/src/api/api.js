@@ -12,7 +12,7 @@ export async function createShortUrl(originalUrl) {
     if (!res.ok) {
       throw new Error("Failed to create short URL");
     }
-    const data = res.json();
+    const data = await res.json();
     return data;
   }catch(error){
     console.error('Fetch Error:', error.message || error);
@@ -53,14 +53,19 @@ export async function getOriginalUrl(shortCode) {
 
 
 export async function updateShortUrl(shortCode, newUrl) {
-  const res = await fetch(`${BASE_URL}/shorten/${shortCode}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ url: newUrl })
-  });
-
-  if (!res.ok) throw new Error("Failed to update URL");
-  return await res.json();
+  try{
+    const res = await fetch(`${BASE_URL}/shorten/${shortCode}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: newUrl })
+    });
+  
+    if (!res.ok) throw new Error("Failed to update URL");
+    return await res.json();
+  }catch(err){
+    console.error('Fetch Error:', err.message || err);
+    throw new Error('Failed to update URLs from the server.');
+  }
 }
 
 export async function deleteShortUrl(shortCode) {
@@ -84,4 +89,8 @@ export async function deleteShortUrl(shortCode) {
 }
 
 
-
+export async function getUrlStats(shortCode) {
+  const res = await fetch(`${BASE_URL}/shorten/${shortCode}/stats`);
+  if (!res.ok) throw new Error("Failed to get stats");
+  return await res.json();
+}
