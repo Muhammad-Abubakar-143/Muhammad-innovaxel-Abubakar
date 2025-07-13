@@ -4,6 +4,7 @@ import CopyButton from './CopyButton';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import { deleteShortUrl, getAllShortUrls } from '../api/api';
+import ViewButton from './ViewButton';
 
 const AllLinks = () => {
   const [urls, setUrls] = useState([]);
@@ -75,6 +76,7 @@ const AllLinks = () => {
                 <div>
                   <div className='font-semibold'>Actions</div>
                   <div className='flex gap-2'>
+                    <ViewButton url={url?.shortCode}/>
                     <CopyButton textToCopy={url?.shortCode} />
                     <EditButton shortCode={url?.shortCode} onUpdate={fetchUrls} />
                     <DeleteButton onClick={() => handleDelete(url?.shortCode)} />

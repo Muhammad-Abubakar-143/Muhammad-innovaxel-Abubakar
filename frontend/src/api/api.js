@@ -90,7 +90,12 @@ export async function deleteShortUrl(shortCode) {
 
 
 export async function getUrlStats(shortCode) {
-  const res = await fetch(`${BASE_URL}/shorten/${shortCode}/stats`);
-  if (!res.ok) throw new Error("Failed to get stats");
-  return await res.json();
+  try{
+    const res = await fetch(`${BASE_URL}/shorten/${shortCode}/stats`);
+    if (!res.ok) throw new Error("Failed to get stats");
+    return await res.json();
+  }catch(err){
+    console.error('Fetch Error:', err.message || err);
+    throw new Error('Failed to fetch URLs from the server.');
+  }
 }
