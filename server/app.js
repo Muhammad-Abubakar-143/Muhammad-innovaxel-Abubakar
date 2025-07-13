@@ -1,9 +1,11 @@
 const express = require('express');
 const UrlRoutes = require('./routes/url');
 const connectMongoDB = require('./connect');
+const cors = require('cors');
 
 const app = express();
 const PORT = 4000;
+app.use(cors());
 
 connectMongoDB("mongodb://localhost:27018/short-url")
   .then(() => {

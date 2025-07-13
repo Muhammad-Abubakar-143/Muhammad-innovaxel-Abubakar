@@ -163,7 +163,7 @@ async function handleGetUrlStats(req, res) {
 
 async function handleGetAllShortUrls(req, res) {
   try {
-    const urls = await Url.find().sort({ createdAt: -1 }); // latest first
+    const urls = await Url.find().sort({ createdAt: -1 }); 
 
     return res.status(200).json(urls.map(doc => ({
       id: doc._id,
