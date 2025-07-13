@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {MdModeEdit} from "react-icons/md"
 import EditUrlPopup from './EditUrlPopup';
 
-const EditButton = () => {
+const EditButton = ({shortCode}) => {
     const [showPopup, setShowPopup] = useState(false);
     
       const handleEdit = (url) => {
@@ -18,6 +18,7 @@ const EditButton = () => {
         <EditUrlPopup
           onClose={() => setShowPopup(false)}
           onSubmit={handleEdit}
+          shortCode={shortCode}
         />
       )}
     </>

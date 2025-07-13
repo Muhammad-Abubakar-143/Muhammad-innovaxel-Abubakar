@@ -3,7 +3,7 @@ import CreateButton from './CreateButton';
 import CopyButton from './CopyButton';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
-import { getAllShortUrls } from '../api/api';
+import { deleteShortUrl, getAllShortUrls } from '../api/api';
 
 
 const AllLinks = () => {
@@ -26,6 +26,16 @@ const AllLinks = () => {
 
     fetchUrls();
   }, []);
+
+  const handleDelete = async (shortCode) => {
+    if (!window.confirm('Are you sure you want to delete this URL?')) return;
+    try {
+      await deleteShortUrl(shortCode);
+      setUrls(prev => prev.filter(u => u.shortCode !== shortCode));
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   return (
     <div className='bg-white max-w-5xl mx-auto mt-36 shadow-md p-4 rounded-lg'>
@@ -64,8 +74,8 @@ const AllLinks = () => {
                   <div className='font-semibold'>Actions</div>
                   <div className='flex gap-2'>
                     <CopyButton textToCopy={url?.shortCode} />
-                    <EditButton />
-                    <DeleteButton />
+                    <EditButton shortCode={url?.shortCode} />
+                    <DeleteButton onClick={() => handleDelete(url?.shortCode)} />
                   </div>
                 </div>
               </li>
